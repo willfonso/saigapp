@@ -1,0 +1,262 @@
+#coding:utf-8
+
+<DrawerClickableItem@MDNavigationDrawerItem>
+    focus_color: "#4fa8fb"
+    text_color: "#4fa8fb"
+    icon_color: "#ebe6ea"
+    ripple_color: "#4fa8fb"
+    selected_color: "#4fa8fb"
+
+WindowManager: 
+    id: manager
+    # Entrada:
+    #     name:"entrada"
+    Login:
+        name:"login"
+    Ui:
+        name:"ui"
+
+<Entrada>:
+    MDScreen:
+        name: "entrada"
+
+        MDFloatLayout:
+            md_bg_color: 0,0,0, 1
+
+            Image:
+                source:"img/SISTEMA.jpg"
+                #size_hint: 0.5, 0.5
+                #pos_hint:{"center_y":.6}
+                
+            # MDLabel:
+            #     text:"Sistema Administrativo Integral del G 24"
+            #     pos_hint: {'center_x': 0.5,'center_y': 0.2}
+            #     halign:"center"
+            #     text_color:1,1,1,1
+            #     font_size: "25sp"
+
+<Login>:
+    name: 'login'
+    MDFloatLayout:
+        md_bg_color: 0, 0, 0, 1
+        Image:
+            source: "img/g24.png"
+            pos_hint: {"center_x": .5, "center_y": .85}
+            size_hint: .3, .3
+        MDFloatLayout:
+            size_hint: .9, .1
+            pos_hint: {"center_x": .5, "center_y": .55}
+            canvas:
+                Color:
+                    rgb: 40/120, 40/120, 40/120, 1
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius: [4]
+            canvas.before:
+                Color:
+                    rgb: 217/255, 217/255, 217/255, 1
+                Line:
+                    width: 1.1
+                    rounded_rectangle: self.x, self.y, self.width, self.height, 4, 4, 4, 4, 100
+            MDTextField:
+                id: user
+                hint_text:"Usuario"
+                icon_left:"account"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .35}
+                height: self.minimum_height
+                background_color: 1, 1, 1, 0
+                font_size: "30sp"
+                # font_name: "MRoboto"
+                hint_text_color: 170/255, 170/255, 170/255, 1
+                padding: 13
+                cursor_color: 0, 0, 0, 1
+            
+        MDFloatLayout:
+            size_hint: .9, .1
+            pos_hint: {"center_x": .5, "center_y": .4}
+            canvas:
+                Color:
+                    rgb: 40/120, 40/120, 40/120, 1
+                RoundedRectangle:
+                    size: self.size
+                    pos:self.pos
+                    radius: [4]
+            canvas.before:
+                Color:
+                    rgb: 217/255, 217/255, 217/255, 1
+                Line:
+                    width: 1.1
+                    rounded_rectangle: self.x, self.y, self.width, self.height, 4, 4, 4, 4, 100
+            MDTextField:
+                id: password
+                hint_text: "Clave"
+                icon_left:"key-variant"
+                size_hint: 1, None
+                pos_hint: {"center_x": .5, "center_y": .35}
+                height: self.minimum_height
+                background_color: 1, 1, 1, 0
+                font_size: "30sp"
+                # font_name: "MRoboto"
+                password: "true"
+                password_mask: "#"
+                hint_text_color: 170/255, 170/255, 170/255, 1
+                padding: 13
+                cursor_color: 0, 0, 0, 1
+            MDIconButton:
+                icon: "eye-off"
+                pos_hint: {"center_y": .5}
+                pos: password.width - self.width + dp(8), 0
+                theme_text_color: "Hint"
+                on_release:
+                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                    password.password = True if password.password is False else False
+
+        Button:
+            text: "Confirmar"
+            color: 1, 1, 1, 1
+            size_hint: .9, .07
+            pos_hint: {"center_x": .5, "center_y": .25}
+            background_color: 1, 1, 1, 0
+            font_size: "13sp"
+            # font_name: "BRoboto"
+            canvas.before:
+                Color:
+                    rgb: 0/255, 0/255, 225/255, 1
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [4]
+            #on_release: root.manager.current = 'ui'
+            on_release: app.connect()
+
+
+<Ui>:
+    name:"ui"
+
+    MDBottomNavigation:
+        selected_color_background: "orange"
+        text_color_active: 1, 1, 1, 1
+
+        MDBottomNavigationItem:
+            name: "screen 1"
+            text: "Home"
+            icon: "home"
+            on_tab_release: app.cerrar_tabla()
+            
+            MDLabel:                
+                text:"del icono Home"
+                halign:"center"
+
+        MDBottomNavigationItem:
+            name: "screen 2"
+            text: "Reportar Problemas"
+            icon: "message-cog-outline"
+            on_tab_release: app.enviar_mensaje()
+
+            MDLabel:
+                text:"del icono Mensage"
+                halign:"center"
+
+        MDBottomNavigationItem:
+            name: "screen 3"
+            text: "Observaciones"
+            icon: "message-processing-outline"
+            on_tab_release: app.cerrar_tabla()
+
+            MDLabel:
+                text:"del icono Mail"
+                halign:"center"
+
+    MDBoxLayout:
+        Image:
+            id: imag
+            source: "img/SISTEMA.jpg"
+            pos: self.pos
+            #size: self.size
+
+    MDBoxLayout:
+        id: screen_buscar
+        
+    MDBoxLayout:
+        id: screen_tabla
+
+    MDNavigationLayout:
+        MDScreenManager:
+            id: screener
+            MDScreen:
+                MDTopAppBar:
+                    title: "Saig24App"
+                    elevation: 4
+                    pos_hint: {"top": 1}
+                    md_bg_color: 0/255, 0/255, 225/255, 1
+                    specific_text_color: 1, 1, 1, 1
+                    left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+                
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+            MDNavigationDrawerMenu:
+                MDNavigationDrawerHeader:
+                    title: "Menu"
+                    title_color: 1, 1, 1, 1
+                    spacing: "8dp"
+                    padding: "8dp", 0, 0, "10dp"
+                    Image:
+                        source: "img/g24.png"
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        #size_hint: .8, .8
+
+                MDNavigationDrawerDivider:
+              
+                DrawerClickableItem:
+                    icon: "home"
+                    theme_text_color: 'Primary'
+                    text: "Principal"
+                    on_release: app.cerrar_tabla()
+                    
+                DrawerClickableItem:
+                    icon: "cart-outline"
+                    theme_text_color: 'Primary'
+                    text: "Buscar un Articulo"
+                    on_release: app.ver_tabla_pdv()
+
+                DrawerClickableItem:
+                    icon: "account-tie-hat-outline"
+                    theme_text_color: 'Primary'
+                    text: "Supervisores"
+                    on_release: app.ver_problemas_supervisor()
+
+                DrawerClickableItem:
+                    icon: "list-status"
+                    theme_text_color: 'Primary'
+                    text: "Compras"
+                    on_release: app.cerrar_tabla()
+
+                DrawerClickableItem:
+                    icon: "tools"
+                    theme_text_color: 'Primary'
+                    text: "Mantenimiento"
+                    on_release: app.ver_problemas_mantenimiento()
+
+                DrawerClickableItem:
+                    icon: "account-group-outline"
+                    theme_text_color: 'Primary'
+                    text: "RRHH"
+                    on_release: app.cerrar_tabla()
+
+                DrawerClickableItem:
+                    icon: "information"
+                    theme_text_color: 'Primary'
+                    text: "Ayuda"
+                    on_release: app.cerrar_tabla()
+
+                DrawerClickableItem:
+                    icon: "account-supervisor"
+                    theme_text_color: 'Primary'
+                    text: "Contactos"
+                    on_release: app.cerrar_tabla()
+
+                    
